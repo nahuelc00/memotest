@@ -1,6 +1,7 @@
 function testMixArray() {
   console.assert(
-    JSON.stringify(mixArray([10, 4, 7])) !== JSON.stringify([10, 4, 7]),
+    JSON.stringify(mixArray([10, 4, 7, 9, 3, 15])) !==
+      JSON.stringify([10, 4, 7, 9, 3, 15]),
     "Mix array failed"
   );
 }
