@@ -16,16 +16,82 @@ function createArrayOfNumbers(maxNumber, minNumber) {
   return array;
 }
 
-function listenClickInSquare() {
+function deleteBoard() {
+  const $grid = document.querySelectorAll(".row");
+
+  for (let index = 0; index < $grid.length; index++) {
+    const $row = $grid[index];
+    $row.remove();
+  }
+}
+
+function renderAlertWin(rounds) {
+  const $alertWin = document.querySelector(".alert-win");
+  const $buttonRestart = document.createElement("button");
+
+  $buttonRestart.className = "btn btn-primary";
+  $buttonRestart.style.fontSize = "25px";
+  $buttonRestart.textContent = "Reiniciar";
+  $buttonRestart.onclick = restart;
+
+  $alertWin.textContent = `Felicidades. Ganaste en ${rounds} rondas`;
+  $alertWin.appendChild($buttonRestart);
+
+  $alertWin.classList.remove("d-none");
+}
+
+function restart() {
+  location.reload();
+}
+
+function checkIfWin(rounds) {
+  const $squares = document.querySelectorAll(".col");
+  let counter = 0;
+
+  $squares.forEach(($square) => {
+    if ($square.style.backgroundColor) {
+      counter++;
+    }
+  });
+
+  if (counter === $squares.length) {
+    deleteBoard();
+    renderAlertWin(rounds);
+  }
+}
+
+function listenClickInSquares() {
   const $squaresCont = document.querySelector("#root");
+  const userSequence = [];
+  let rounds = 0;
+
   $squaresCont.addEventListener("click", (e) => {
     const $square = e.target;
+
+    if (!$square.style.backgroundColor) {
+      userSequence.push($square);
+    }
+
     $square.style.backgroundColor = $square.id;
-    console.log($square);
+
+    if (userSequence.length === 2) {
+      rounds++;
+      if (userSequence[0].id !== userSequence[1].id) {
+        setTimeout(() => {
+          userSequence[0].style.backgroundColor = "";
+          userSequence[1].style.backgroundColor = "";
+        }, 100);
+      }
+
+      setTimeout(() => {
+        userSequence.splice(0);
+        checkIfWin(rounds);
+      }, 150);
+    }
   });
 }
 
-function assignSquaresColor(numbersMix) {
+function assignSquaresColor(squaresCantityMix) {
   const $squares = document.querySelectorAll(".col");
   const colors = [
     "red",
@@ -42,13 +108,15 @@ function assignSquaresColor(numbersMix) {
     "violet",
   ];
 
-  numbersMix.forEach((number, index) => {
+  squaresCantityMix.forEach((number, index) => {
     $squares[number].id = colors[index];
   });
 }
 
 (function main() {
-  const numbers = createArrayOfNumbers(11, 0);
-  const numbersMix = mixArray(numbers);
-  assignSquaresColor(numbersMix);
+  const squaresCantity = createArrayOfNumbers(11, 0);
+  const squaresCantityMix = mixArray(squaresCantity);
+
+  assignSquaresColor(squaresCantityMix);
+  listenClickInSquares();
 })();
