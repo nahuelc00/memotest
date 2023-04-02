@@ -1,11 +1,11 @@
-function mixArray(array) {
-  for (let index = 0; index < array.length; index++) {
+function mixNumberArray(numbersArray) {
+  for (let index = 0; index < numbersArray.length; index++) {
     const randomIndex = Math.floor(Math.random() * (index + 1));
-    const currentNumber = array[index];
-    array[index] = array[randomIndex];
-    array[randomIndex] = currentNumber;
+    const currentNumber = numbersArray[index];
+    numbersArray[index] = numbersArray[randomIndex];
+    numbersArray[randomIndex] = currentNumber;
   }
-  return array;
+  return numbersArray;
 }
 
 function createArrayOfNumbers(maxNumber, minNumber) {
@@ -115,7 +115,7 @@ function assignSquaresColor(squaresCantityMix) {
 
 (function main() {
   const squaresCantity = createArrayOfNumbers(11, 0);
-  const squaresCantityMix = mixArray(squaresCantity);
+  const squaresCantityMix = mixNumberArray(squaresCantity);
 
   assignSquaresColor(squaresCantityMix);
   listenClickInSquares();
