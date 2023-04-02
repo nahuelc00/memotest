@@ -91,7 +91,7 @@ function listenClickInSquares() {
   });
 }
 
-function assignSquaresColor(squaresCantityMix) {
+function assignSquaresColor(squaresQuantityMix) {
   const $squares = document.querySelectorAll(".col");
   const colors = [
     "red",
@@ -108,15 +108,15 @@ function assignSquaresColor(squaresCantityMix) {
     "violet",
   ];
 
-  squaresCantityMix.forEach((number, index) => {
+  squaresQuantityMix.forEach((number, index) => {
     $squares[number].id = colors[index];
   });
 }
 
 (function main() {
-  const squaresCantity = createArrayOfNumbers(11, 0);
-  const squaresCantityMix = mixNumberArray(squaresCantity);
+  const squaresQuantity = createArrayOfNumbers(11, 0);
+  const squaresQuantityMix = mixNumberArray(squaresQuantity);
 
-  assignSquaresColor(squaresCantityMix);
+  assignSquaresColor(squaresQuantityMix);
   listenClickInSquares();
 })();
