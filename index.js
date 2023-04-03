@@ -75,8 +75,6 @@ function handlerCards(cardsShuffled) {
     const isActivedCard = cardsActives.find((card) => card === cardClicked);
 
     if (cardClicked === cardsFlipped[0]) {
-      console.log("Entre al if");
-      console.log(cardsFlipped[0]);
     } else if (!isActivedCard) {
       cardsFlipped.push(cardClicked);
     }
