@@ -1,21 +1,3 @@
-function mixNumberArray(numbersArray) {
-  for (let index = 0; index < numbersArray.length; index++) {
-    const randomIndex = Math.floor(Math.random() * (index + 1));
-    const currentNumber = numbersArray[index];
-    numbersArray[index] = numbersArray[randomIndex];
-    numbersArray[randomIndex] = currentNumber;
-  }
-  return numbersArray;
-}
-
-function createArrayOfNumbers(maxNumber, minNumber) {
-  const array = [];
-  for (let index = minNumber; index <= maxNumber; index++) {
-    array.push(index);
-  }
-  return array;
-}
-
 function deleteBoard() {
   const $grid = document.querySelectorAll(".row");
 
@@ -44,7 +26,7 @@ function restart() {
   location.reload();
 }
 
-function checkIfWin(rounds) {
+function checkIfWin() {
   const $squares = document.querySelectorAll(".col");
   let counter = 0;
 
@@ -55,44 +37,104 @@ function checkIfWin(rounds) {
   });
 
   if (counter === $squares.length) {
+    return true;
+  } else {
+    return false;
+  }
+}
+
+function paintCard($card) {
+  $card.style.backgroundColor = $card.getAttribute("type");
+}
+
+function unpaintCard($card) {
+  $card.style.backgroundColor = "";
+}
+
+function checkWin(rounds) {
+  const win = checkIfWin();
+  if (win) {
     deleteBoard();
     renderAlertWin(rounds);
   }
 }
 
-function listenClickInSquares() {
+function handlerCards(cardsShuffled) {
   const $squaresCont = document.querySelector("#root");
-  const userSequence = [];
   let rounds = 0;
+  let cardsFlipped = [];
+  const cardsActives = [];
 
   $squaresCont.addEventListener("click", (e) => {
-    const $square = e.target;
+    const $card = e.target;
+    paintCard($card);
 
-    if (!$square.style.backgroundColor) {
-      userSequence.push($square);
+    const cardClicked = cardsShuffled.find(
+      (card) => card.id === Number($card.id)
+    );
+    const isActivedCard = cardsActives.find((card) => card === cardClicked);
+
+    if (cardClicked === cardsFlipped[0] || cardClicked === cardsFlipped[1]) {
+    } else if (!isActivedCard) {
+      cardsFlipped.push(cardClicked);
     }
 
-    $square.style.backgroundColor = $square.id;
-
-    if (userSequence.length === 2) {
+    if (cardsFlipped.length === 2) {
       rounds++;
-      if (userSequence[0].id !== userSequence[1].id) {
+      if (cardsFlipped[0].type !== cardsFlipped[1].type) {
         setTimeout(() => {
-          userSequence[0].style.backgroundColor = "";
-          userSequence[1].style.backgroundColor = "";
-        }, 100);
+          unpaintCard(document.getElementById(`${cardsFlipped[0].id}`));
+          unpaintCard(document.getElementById(`${cardsFlipped[1].id}`));
+        }, 200);
+      } else {
+        cardsActives.push(cardsFlipped[0]);
+        cardsActives.push(cardsFlipped[1]);
       }
 
       setTimeout(() => {
-        userSequence.splice(0);
-        checkIfWin(rounds);
-      }, 150);
+        cardsFlipped = [];
+        checkWin(rounds);
+      }, 250);
     }
   });
 }
 
-function assignSquaresColor(squaresQuantityMix) {
-  const $squares = document.querySelectorAll(".col");
+function setInfoInCards(cardsShuffled) {
+  const $cards = document.querySelectorAll(".col");
+
+  $cards.forEach(($card, index) => {
+    const card = cardsShuffled[index];
+    $card.setAttribute("type", card.type);
+    $card.id = card.id;
+  });
+}
+
+function getAndSetCards(colors) {
+  const cardsList = [];
+  let id = 0;
+
+  colors.forEach((color) => {
+    const card = {
+      id: id++,
+      type: color,
+    };
+
+    cardsList.push(card);
+  });
+
+  return cardsList;
+}
+
+function shuffleCards(cards) {
+  for (let index = 0; index < cards.length; index++) {
+    const randomIndex = Math.floor(Math.random() * (index + 1));
+    const currentNumber = cards[index];
+    cards[index] = cards[randomIndex];
+    cards[randomIndex] = currentNumber;
+  }
+}
+
+(function main() {
   const colors = [
     "red",
     "orange",
@@ -108,15 +150,9 @@ function assignSquaresColor(squaresQuantityMix) {
     "violet",
   ];
 
-  squaresQuantityMix.forEach((number, index) => {
-    $squares[number].id = colors[index];
-  });
-}
+  const cards = getAndSetCards(colors);
 
-(function main() {
-  const squaresQuantity = createArrayOfNumbers(11, 0);
-  const squaresQuantityMix = mixNumberArray(squaresQuantity);
-
-  assignSquaresColor(squaresQuantityMix);
-  listenClickInSquares();
+  shuffleCards(cards);
+  setInfoInCards(cards);
+  handlerCards(cards);
 })();
