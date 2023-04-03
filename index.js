@@ -99,7 +99,7 @@ function handlerCards(cardsShuffled) {
   });
 }
 
-function setInfoInCards(cardsShuffled) {
+function setInfoInCardsEls(cardsShuffled) {
   const $cards = document.querySelectorAll(".col");
 
   $cards.forEach(($card, index) => {
@@ -153,6 +153,6 @@ function shuffleCards(cards) {
   const cards = getAndSetCards(colors);
 
   shuffleCards(cards);
-  setInfoInCards(cards);
+  setInfoInCardsEls(cards);
   handlerCards(cards);
 })();
