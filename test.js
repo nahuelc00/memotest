@@ -1,5 +1,5 @@
-// Hacer tests de shuffleCards y setCards
-function testShuffleCards() {
+// Hacer tests de shuffleArray y setCards
+function testShuffleArray() {
   const cards = [
     { id: 2, type: "yellow" },
     { id: 6, type: "orange" },
@@ -8,14 +8,14 @@ function testShuffleCards() {
   ];
 
   console.assert(
-    JSON.stringify(shuffleCards(cards)) !== JSON.stringify(cards),
-    "Error in shuffleCards"
+    JSON.stringify(shuffleArray(cards)) !== JSON.stringify(cards),
+    "Error in shuffleArray"
   );
 }
 
-function testGetAndSetCards() {
+function testCreateCards() {
   const colors = ["yellow", "orange", "red", "blue"];
-  const cards = getAndSetCards(colors);
+  const cards = createCards(colors);
 
   console.assert(
     JSON.stringify(cards) ===
@@ -25,9 +25,9 @@ function testGetAndSetCards() {
         { id: 2, type: "red" },
         { id: 3, type: "blue" },
       ]),
-    "Error in get and set cards"
+    "Error in create cards"
   );
 }
 
-testShuffleCards();
-testGetAndSetCards();
+testShuffleArray();
+testCreateCards();
