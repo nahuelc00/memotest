@@ -43,8 +43,11 @@ function checkIfWin() {
   }
 }
 
-function paintCard($card) {
-  $card.style.backgroundColor = $card.getAttribute("type");
+function paintCard($card, cardsShuffled) {
+  const cardId = Number($card.id);
+  const cardFound = cardsShuffled.find((card) => cardId === card.id);
+  const cardColor = cardFound.type;
+  $card.style.backgroundColor = cardColor;
 }
 
 function unpaintCard($card) {
@@ -59,7 +62,7 @@ function checkWin(rounds) {
   }
 }
 
-function handlerCards(cardsShuffled) {
+function handleCards(cardsShuffled) {
   const $squaresCont = document.querySelector("#root");
   let rounds = 0;
   let cardsFlipped = [];
@@ -67,7 +70,7 @@ function handlerCards(cardsShuffled) {
 
   $squaresCont.addEventListener("click", (e) => {
     const $card = e.target;
-    paintCard($card);
+    paintCard($card, cardsShuffled);
 
     const cardClicked = cardsShuffled.find(
       (card) => card.id === Number($card.id)
@@ -104,18 +107,17 @@ function setInfoInCardsEls(cardsShuffled) {
 
   $cards.forEach(($card, index) => {
     const card = cardsShuffled[index];
-    $card.setAttribute("type", card.type);
+    // $card.dataset.type = card.type;
     $card.id = card.id;
   });
 }
 
-function getAndSetCards(colors) {
+function createCards(colors) {
   const cardsList = [];
-  let id = 0;
 
-  colors.forEach((color) => {
+  colors.forEach((color, i) => {
     const card = {
-      id: id++,
+      id: i++,
       type: color,
     };
 
@@ -125,13 +127,20 @@ function getAndSetCards(colors) {
   return cardsList;
 }
 
-function shuffleCards(cards) {
-  for (let index = 0; index < cards.length; index++) {
+function shuffleArray(array) {
+  const arrayCopied = [];
+
+  array.map((item) => {
+    arrayCopied.push(item);
+  });
+
+  for (let index = 0; index < arrayCopied.length; index++) {
     const randomIndex = Math.floor(Math.random() * (index + 1));
-    const currentNumber = cards[index];
-    cards[index] = cards[randomIndex];
-    cards[randomIndex] = currentNumber;
+    const currentPosition = arrayCopied[index];
+    arrayCopied[index] = arrayCopied[randomIndex];
+    arrayCopied[randomIndex] = currentPosition;
   }
+  return arrayCopied;
 }
 
 (function main() {
@@ -150,9 +159,9 @@ function shuffleCards(cards) {
     "violet",
   ];
 
-  const cards = getAndSetCards(colors);
+  const cards = createCards(colors);
+  const cardsShuffled = shuffleArray(cards);
 
-  shuffleCards(cards);
-  setInfoInCardsEls(cards);
-  handlerCards(cards);
+  setInfoInCardsEls(cardsShuffled);
+  handleCards(cardsShuffled);
 })();
