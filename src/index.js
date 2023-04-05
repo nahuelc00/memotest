@@ -47,11 +47,12 @@ function paintCard($card, cardsShuffled) {
   const cardId = Number($card.id);
   const cardFound = cardsShuffled.find((card) => cardId === card.id);
   const cardColor = cardFound.type;
-  $card.style.backgroundColor = cardColor;
+  $card.classList.add(cardColor);
 }
 
-function unpaintCard($card) {
-  $card.style.backgroundColor = "";
+function unpaintCard($card, cardFlipped) {
+  const cardColor = cardFlipped.type;
+  $card.classList.remove(cardColor);
 }
 
 function checkWin(rounds) {
@@ -86,8 +87,14 @@ function handleCards(cardsShuffled) {
       rounds++;
       if (cardsFlipped[0].type !== cardsFlipped[1].type) {
         setTimeout(() => {
-          unpaintCard(document.getElementById(`${cardsFlipped[0].id}`));
-          unpaintCard(document.getElementById(`${cardsFlipped[1].id}`));
+          unpaintCard(
+            document.getElementById(`${cardsFlipped[0].id}`),
+            cardsFlipped[0]
+          );
+          unpaintCard(
+            document.getElementById(`${cardsFlipped[1].id}`),
+            cardsFlipped[1]
+          );
         }, 200);
       } else {
         cardsActives.push(cardsFlipped[0]);
@@ -143,22 +150,10 @@ function shuffleArray(array) {
 }
 
 (function main() {
-  const colors = [
-    "red",
-    "orange",
-    "yellow",
-    "brown",
-    "blue",
-    "violet",
-    "red",
-    "orange",
-    "yellow",
-    "brown",
-    "blue",
-    "violet",
-  ];
+  const baseColors = ["red", "orange", "yellow", "brown", "blue", "violet"];
+  const colorsRepeated = baseColors.concat(baseColors);
 
-  const cards = createCards(colors);
+  const cards = createCards(colorsRepeated);
   const cardsShuffled = shuffleArray(cards);
 
   setIdInCardsEls(cardsShuffled);
