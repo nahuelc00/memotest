@@ -107,7 +107,6 @@ function setInfoInCardsEls(cardsShuffled) {
 
   $cards.forEach(($card, index) => {
     const card = cardsShuffled[index];
-    // $card.dataset.type = card.type;
     $card.id = card.id;
   });
 }
