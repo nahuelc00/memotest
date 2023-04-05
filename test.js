@@ -5,6 +5,8 @@ function testShuffleArray() {
     { id: 6, type: "orange" },
     { id: 9, type: "red" },
     { id: 11, type: "blue" },
+    { id: 4, type: "violet" },
+    { id: 5, type: "brown" },
   ];
 
   console.assert(
