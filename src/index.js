@@ -1,5 +1,3 @@
-//54
-
 function deleteBoard() {
   const $grid = document.querySelectorAll(".row-game");
 
