@@ -2,6 +2,14 @@
   font-size: 30px;
 }
 
+.row-game {
+  height: 25vh;
+}
+
+.card-game {
+  transition: all 0.2s;
+}
+
 .red {
   background-color: red;
 }
