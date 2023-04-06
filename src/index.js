@@ -1,3 +1,5 @@
+//54
+
 function deleteBoard() {
   const $grid = document.querySelectorAll(".row-game");
 
@@ -7,19 +9,30 @@ function deleteBoard() {
   }
 }
 
-function renderAlertWin(rounds) {
+function renderAlertWinAndDeleteBoard(rounds) {
   const $alertWin = document.querySelector(".alert-win");
+  const $textWin = document.createElement("p");
   const $buttonRestart = document.createElement("button");
+  const $cards = document.querySelectorAll(".card-game");
 
   $buttonRestart.className = "btn-restart btn btn-primary";
-  $buttonRestart.style.fontSize = "25px";
   $buttonRestart.textContent = "Reiniciar";
   $buttonRestart.onclick = restart;
 
-  $alertWin.textContent = `Felicidades. Ganaste en ${rounds} rondas`;
+  $textWin.textContent = `Felicidades. Ganaste en ${rounds} rondas`;
+  $textWin.classList.add("m-0");
+
+  $alertWin.appendChild($textWin);
   $alertWin.appendChild($buttonRestart);
 
-  $alertWin.classList.remove("d-none");
+  $cards.forEach(($card) => {
+    $card.classList.remove("m-1");
+  });
+
+  setTimeout(() => {
+    $alertWin.classList.remove("d-none");
+    deleteBoard();
+  }, 800);
 }
 
 function restart() {
@@ -46,8 +59,7 @@ function checkWin(rounds, cardsActives) {
   const win = checkIfWin(cardsActives);
 
   if (win) {
-    deleteBoard();
-    renderAlertWin(rounds);
+    renderAlertWinAndDeleteBoard(rounds);
   }
 }
 
