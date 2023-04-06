@@ -19,7 +19,7 @@ function renderAlertWinAndDeleteBoard(rounds) {
   $buttonRestart.textContent = "Reiniciar";
   $buttonRestart.onclick = restart;
 
-  $textWin.textContent = `Felicidades. Ganaste en ${rounds} rondas`;
+  $textWin.innerHTML = `Felicidades.<br/>Ganaste en<strong> ${rounds}</strong> rondas`;
   $textWin.classList.add("m-0");
 
   $alertWin.appendChild($textWin);
