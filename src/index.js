@@ -1,5 +1,5 @@
 function deleteBoard() {
-  const $grid = document.querySelectorAll(".row");
+  const $grid = document.querySelectorAll(".row-game");
 
   for (let index = 0; index < $grid.length; index++) {
     const $row = $grid[index];
@@ -11,7 +11,7 @@ function renderAlertWin(rounds) {
   const $alertWin = document.querySelector(".alert-win");
   const $buttonRestart = document.createElement("button");
 
-  $buttonRestart.className = "btn btn-primary";
+  $buttonRestart.className = "btn-restart btn btn-primary";
   $buttonRestart.style.fontSize = "25px";
   $buttonRestart.textContent = "Reiniciar";
   $buttonRestart.onclick = restart;
@@ -26,21 +26,8 @@ function restart() {
   location.reload();
 }
 
-function checkIfWin() {
-  const $squares = document.querySelectorAll(".col");
-  let counter = 0;
-
-  $squares.forEach(($square) => {
-    if ($square.style.backgroundColor) {
-      counter++;
-    }
-  });
-
-  if (counter === $squares.length) {
-    return true;
-  } else {
-    return false;
-  }
+function checkIfWin(cardsActives) {
+  return cardsActives.length === 12;
 }
 
 function paintCard($card, cardsShuffled) {
@@ -55,8 +42,9 @@ function unpaintCard($card, cardFlipped) {
   $card.classList.remove(cardColor);
 }
 
-function checkWin(rounds) {
-  const win = checkIfWin();
+function checkWin(rounds, cardsActives) {
+  const win = checkIfWin(cardsActives);
+
   if (win) {
     deleteBoard();
     renderAlertWin(rounds);
@@ -64,53 +52,56 @@ function checkWin(rounds) {
 }
 
 function handleCards(cardsShuffled) {
-  const $squaresCont = document.querySelector("#root");
+  const $cardsCont = document.querySelector("#root");
   let rounds = 0;
   let cardsFlipped = [];
   const cardsActives = [];
 
-  $squaresCont.addEventListener("click", (e) => {
+  $cardsCont.addEventListener("click", (e) => {
     const $card = e.target;
-    paintCard($card, cardsShuffled);
 
-    const cardClicked = cardsShuffled.find(
-      (card) => card.id === Number($card.id)
-    );
-    const isActivedCard = cardsActives.find((card) => card === cardClicked);
+    if ($card.classList.contains("card-game")) {
+      paintCard($card, cardsShuffled);
 
-    if (cardClicked === cardsFlipped[0]) {
-    } else if (!isActivedCard) {
-      cardsFlipped.push(cardClicked);
-    }
+      const cardClicked = cardsShuffled.find(
+        (card) => card.id === Number($card.id)
+      );
+      const isActivedCard = cardsActives.find((card) => card === cardClicked);
 
-    if (cardsFlipped.length === 2) {
-      rounds++;
-      if (cardsFlipped[0].type !== cardsFlipped[1].type) {
-        setTimeout(() => {
-          unpaintCard(
-            document.getElementById(`${cardsFlipped[0].id}`),
-            cardsFlipped[0]
-          );
-          unpaintCard(
-            document.getElementById(`${cardsFlipped[1].id}`),
-            cardsFlipped[1]
-          );
-        }, 200);
-      } else {
-        cardsActives.push(cardsFlipped[0]);
-        cardsActives.push(cardsFlipped[1]);
+      if (cardClicked === cardsFlipped[0]) {
+      } else if (!isActivedCard) {
+        cardsFlipped.push(cardClicked);
       }
 
-      setTimeout(() => {
-        cardsFlipped = [];
-        checkWin(rounds);
-      }, 250);
+      if (cardsFlipped.length === 2) {
+        rounds++;
+        if (cardsFlipped[0].type !== cardsFlipped[1].type) {
+          setTimeout(() => {
+            unpaintCard(
+              document.getElementById(`${cardsFlipped[0].id}`),
+              cardsFlipped[0]
+            );
+            unpaintCard(
+              document.getElementById(`${cardsFlipped[1].id}`),
+              cardsFlipped[1]
+            );
+          }, 200);
+        } else {
+          cardsActives.push(cardsFlipped[0]);
+          cardsActives.push(cardsFlipped[1]);
+        }
+
+        setTimeout(() => {
+          cardsFlipped = [];
+          checkWin(rounds, cardsActives);
+        }, 250);
+      }
     }
   });
 }
 
 function setIdInCardsEls(cardsShuffled) {
-  const $cards = document.querySelectorAll(".col");
+  const $cards = document.querySelectorAll(".card-game");
 
   $cards.forEach(($card, index) => {
     const card = cardsShuffled[index];
