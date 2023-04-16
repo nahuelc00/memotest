@@ -2,10 +2,11 @@
 **Memotest realizado con Html, Css y JavaScript. Usando BootStrap para estilos y Cypress para testing.** 
 
 ### Installation: 
-- npm install  
+- download or clone repo
+- run: npm install  
 - Install live-server
-- npm run start
-- tests : 
+- run: npm run start
+- for tests : 
 	npm run cypress:open  | npm run cypress:run  
  
  ### Demo:  https://nahuelc00.github.io/memotest/  
