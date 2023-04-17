@@ -62,7 +62,6 @@ context("Memotest", () => {
      it("verifica que seleccionando dos cartas distintas no queden cartas pintadas en el tablero", () => {
 
          cy.visit(URL);
-         
          // Assemble cards
          cy.get(".card-game").each(($card) => {
              cy.wrap($card).click().then(() => {
@@ -83,9 +82,6 @@ context("Memotest", () => {
                cy.visit(URL);
                cy.get(`#${cardsReduced[0].ids[0]}`).click();
                cy.get(`#${cardsReduced[1].ids[0]}`).click();
-
-               console.log(cards);
-               debugger;
 
               cy.get(".card-game").each(($card) => {
                 cy.wrap($card).should("have.css","background-color","rgba(0, 0, 0, 0)");
