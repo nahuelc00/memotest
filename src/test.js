@@ -1,4 +1,3 @@
-// Hacer tests de shuffleArray y setCards
 function testShuffleArray() {
   const cards = [
     { id: 2, type: "yellow" },
