@@ -53,6 +53,16 @@ function unpaintCard($card, cardFlipped) {
   $card.classList.remove(cardColor);
 }
 
+function disableClick() {
+  const $contCards = document.querySelector("#root");
+  $contCards.classList.add("disable-click");
+}
+
+function enableClick() {
+  const $contCards = document.querySelector("#root");
+  $contCards.classList.remove("disable-click")
+}
+
 function checkWin(rounds, cardsActives) {
   const win = checkIfWin(cardsActives);
 
@@ -84,6 +94,7 @@ function handleCards(cardsShuffled) {
       }
 
       if (cardsFlipped.length === 2) {
+        disableClick();
         rounds++;
         if (cardsFlipped[0].type !== cardsFlipped[1].type) {
           setTimeout(() => {
@@ -103,6 +114,7 @@ function handleCards(cardsShuffled) {
 
         setTimeout(() => {
           cardsFlipped = [];
+          enableClick();
           checkWin(rounds, cardsActives);
         }, 250);
       }

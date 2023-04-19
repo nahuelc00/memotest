@@ -9,6 +9,10 @@ body {
   );
 }
 
+.disable-click{
+  pointer-events: none;
+}
+
 .alert-win {
   font-size: 40px;
 }
