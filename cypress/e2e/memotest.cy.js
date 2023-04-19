@@ -98,8 +98,7 @@ context("Memotest", () => {
       cardsReduced.map((card) => {
         const id = Number(card.ids[0]);
         const idAux = Number(card.ids[1]);
-
-        cy.wait(250);
+        
         cy.get(`#${id}`).click();
         cy.get(`#${idAux}`).click();
       });
