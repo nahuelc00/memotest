@@ -116,7 +116,7 @@ function handleCards(cardsShuffled) {
           cardsFlipped = [];
           enableClick();
           checkWin(rounds, cardsActives);
-        }, 250);
+        }, 220);
       }
     }
   });
