@@ -1,5 +1,5 @@
 # Memotest
-**Memotest realizado con Html, Css y JavaScript. Usando BootStrap para estilos y Cypress para testing.** 
+**Memotest made with Html, Css and JavaScript. Using BootStrap for styles and Cypress for testing.** 
 
 ### Installation: 
 - download or clone repo
